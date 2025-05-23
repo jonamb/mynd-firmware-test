@@ -10,7 +10,8 @@ make mynd-update-firmware-mcu
 ```
 # Project structure
  - `drivers`            - Basic stm I/O drivers
- - `gitversion`       - Version string generator
+ - `firmwares`          - Third-party firmwares (Bluetooth, USB-PD controller)
+ - `gitversion`         - Version string generator
  - `Projects`
    - `Mynd`             - Source code for MCU firmware
    - `MyndBootloader`   - Source code for bootloader
