@@ -19,11 +19,7 @@ jobs:
     name: build_${{ matrix.project }}
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/jomosa24/myndfirmware:latest
-      options: --platform linux/amd64
-      credentials:
-        username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHCR_TOKEN }}
+      image: ghcr.io/teufelaudio/myndfirmware:latest
     strategy:
       fail-fast: false
       matrix:
