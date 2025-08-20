@@ -1049,6 +1049,7 @@ TS_GET_PROPERTY_NON_OPT_FN(Teufel::Task::Audio, m_current_avrcp_volume, VolumeLe
 TS_GET_PROPERTY_NON_OPT_FN(Teufel::Task::Audio, m_sound_icons_active, SoundIconsActive)
 TS_GET_PROPERTY_NON_OPT_FN(Teufel::Task::Audio, m_bass_level, BassLevel)
 TS_GET_PROPERTY_NON_OPT_FN(Teufel::Task::Audio, m_treble_level, TrebleLevel)
+TS_GET_PROPERTY_NON_OPT_FN(Teufel::Task::Audio, m_channel_config, ChannelConfig)
 }
 
 namespace Teufel::Ux::System
