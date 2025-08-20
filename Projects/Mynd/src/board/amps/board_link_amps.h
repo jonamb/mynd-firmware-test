@@ -16,11 +16,11 @@ typedef enum
     AMP_ENVELOPE_TRACKING_MODE_ON,
 } board_link_amps_envelope_tracking_mode_t;
 
-typedef enum : int8_t
+typedef enum : uint8_t
 {
-        AMP_CHANNEL_LEFT,
-        AMP_CHANNEL_RIGHT,
-        AMP_CHANNEL_STEREO
+    AMP_CHANNEL_LEFT = 0,
+    AMP_CHANNEL_RIGHT = 1,
+    AMP_CHANNEL_STEREO = 2
 } board_link_amps_channel_config_t;
 
 #if defined(__cplusplus)
@@ -39,6 +39,8 @@ extern "C"
     void board_link_amps_enable_eco_mode(bool enable);
 
     void board_link_amps_set_envelope_tracking_mode(board_link_amps_envelope_tracking_mode_t mode);
+
+    void board_link_amps_set_channel_config(board_link_amps_channel_config_t config);
 
     void board_link_amps_enable_eq(bool enable);
 
