@@ -15,7 +15,7 @@ const tas5825p_cfg_reg_t tas5825p_channel_left_config[] = {
 };
 
 // Set input crossbar to only right channel
-const tas5825p_cfg_reg_t tas5825p_channel_left_config[] = {
+const tas5825p_cfg_reg_t tas5825p_channel_right_config[] = {
     { 0x00, 0x00 },     // Page 0
     { 0x7f, 0x8C },     // Book 0x8C
     { 0x00, 0x0B },     // Page 0x0B
@@ -28,7 +28,7 @@ const tas5825p_cfg_reg_t tas5825p_channel_left_config[] = {
 };
 
 // Set input crossbar to sum both channels *_0.5
-const tas5825p_cfg_reg_t tas5825p_channel_left_config[] = {
+const tas5825p_cfg_reg_t tas5825p_channel_stereo_config[] = {
     { 0x00, 0x00 },     // Page 0
     { 0x7f, 0x8C },     // Book 0x8C
     { 0x00, 0x0B },     // Page 0x0B
