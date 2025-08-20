@@ -512,7 +512,7 @@ TS_KEY_VALUE_CONST_MAP(EventHandlerMapper, uint32_t, button_event_handler_fn_t,
      {BUTTON_ID_PLUS | BUTTON_ID_MINUS, [](Ux::InputState event) {
         log_debug("Plus+Minus combo: %s", getDesc(event));
         if (event == Ux::InputState::MediumPress) {
-            int8_t current_channel_config = getProperty<Tua::ChannelConfig>();
+            int8_t current_channel_config = getProperty<Tua::ChannelConfig>().value;
             int8_t next_channel_value = (current_channel_config.value + 1) % (CONFIG_DSP_CHANNEL_MAX + 1);
             postMessage(ot_id, Tua::ChannelConfig{next_channel_value});
         }
