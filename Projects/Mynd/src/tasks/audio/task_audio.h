@@ -25,6 +25,7 @@ using AudioMessage = std::variant<
     Teufel::Ux::Audio::EcoMode,
     Teufel::Ux::Audio::BassLevel,
     Teufel::Ux::Audio::TrebleLevel,
+    Teufel::Ux::Audio::ChannelConfig,
     Teufel::Ux::System::BatteryCriticalTemperature,
     Teufel::Ux::System::ChargeType,
     Teufel::Ux::System::BatteryLowLevelState

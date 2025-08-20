@@ -12,8 +12,10 @@
 
 #include "eco_5805_config.h"
 #include "eco_5805_treble_config.h"
+#include "eco_5805_channel_config.h"
 #include "eco_5825_config.h"
 #include "eco_5825_bass_config.h"
+#include "eco_5825_channel_config.h"
 #include "eco_5805_eco_mode_config.h"
 #include "eco_5825_eco_mode_config.h"
 #include "eco_5805_patch_to_bypass_mode.h"
@@ -327,6 +329,57 @@ void board_link_amps_enable_eq(bool enable)
     {
         log_error("Failed to %s woofer amp EQ", enable ? "enable" : "disable");
     }
+}
+
+void board_link_amps_set_channel_config(board_link_amps_channel_config_t config)
+{
+    switch (config)
+    {
+    case AMP_CHANNEL_LEFT:
+        if (tas5825p_load_configuration(s_amps.tas5825p, tas5825p_channel_left_config, TAS5825P_CHANNEL_LEFT_REGISTERS_SIZE) != 0)
+        {
+            log_error("Failed to set TAS5825P channel config");
+            return;
+        }
+
+        if (tas5805m_load_configuration(s_amps.tas5805m, tas5805m_channel_left_config, TAS5805M_CHANNEL_LEFT_REGISTERS_SIZE) != 0)
+        {
+            log_error("Failed to set TAS5805M channel config");
+            return;
+        }
+
+        break;
+    
+    case AMP_CHANNEL_RIGHT:
+        if (tas5825p_load_configuration(s_amps.tas5825p, tas5825p_channel_right_config, TAS5825P_CHANNEL_RIGHT_REGISTERS_SIZE) != 0)
+        {
+            log_error("Failed to set TAS5825P channel config");
+            return;
+        }
+
+        if (tas5805m_load_configuration(s_amps.tas5805m, tas5805m_channel_right_config, TAS5805M_CHANNEL_RIGHT_REGISTERS_SIZE) != 0)
+        {
+            log_error("Failed to set TAS5805M channel config");
+            return;
+        }
+        break;
+    
+    case AMP_CHANNEL_STEREO:
+        if (tas5825p_load_configuration(s_amps.tas5825p, tas5825p_channel_stereo_config, TAS5825P_CHANNEL_STEREO_REGISTERS_SIZE) != 0)
+        {
+            log_error("Failed to set TAS5825P channel config");
+            return;
+        }
+
+        if (tas5805m_load_configuration(s_amps.tas5805m, tas5805m_channel_stereo_config, TAS5805M_CHANNEL_STEREO_REGISTERS_SIZE) != 0)
+        {
+            log_error("Failed to set TAS5805M channel config");
+            return;
+        }
+        break;
+    
+    default:
+        break;
 }
 
 void board_link_amps_set_bass_level(int8_t bass_db)

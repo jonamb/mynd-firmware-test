@@ -16,6 +16,13 @@ typedef enum
     AMP_ENVELOPE_TRACKING_MODE_ON,
 } board_link_amps_envelope_tracking_mode_t;
 
+typedef enum : int8_t
+{
+        AMP_CHANNEL_LEFT,
+        AMP_CHANNEL_RIGHT,
+        AMP_CHANNEL_STEREO
+} board_link_amps_channel_config_t;
+
 #if defined(__cplusplus)
 extern "C"
 {
@@ -87,6 +94,8 @@ extern "C"
      * @param[in] volume_db     volume in dB
      */
     void board_link_amps_set_woofer_volume(int8_t volume_db);
+
+    void board_link_amps_set_channel
 
     int8_t board_link_amps_get_tweeter_volume(void);
     int8_t board_link_amps_get_woofer_volume(void);

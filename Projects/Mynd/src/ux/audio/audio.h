@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "actionslink.h"
+#include "board/amps/board_link_amps.h"
 
 namespace Teufel::Ux::Audio
 {
@@ -18,6 +19,7 @@ struct StopPlayingSoundIcon { actionslink_sound_icon_t sound_icon; };
 struct SoundIconsActive { bool value; };
 struct BassLevel { int8_t value; };
 struct TrebleLevel { int8_t value; };
+struct ChannelConfig { board_link_amps_channel_config_t value; };
 
 // clang-format on
 
@@ -27,4 +29,5 @@ VolumeLevel      getProperty(VolumeLevel *);
 SoundIconsActive getProperty(SoundIconsActive *);
 BassLevel        getProperty(BassLevel *);
 TrebleLevel      getProperty(TrebleLevel *);
+ChannelConfig    getProperty(ChannelConfig *);
 }

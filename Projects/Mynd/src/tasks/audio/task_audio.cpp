@@ -71,6 +71,10 @@ static PropertyNonOpt<decltype(Tua::TrebleLevel::value)> m_treble_level{
     "treble", CONFIG_DSP_TREBLE_MIN, CONFIG_DSP_TREBLE_MAX, 1, CONFIG_DSP_TREBLE_DEFAULT, CONFIG_DSP_TREBLE_DEFAULT};
 PROPERTY_SET(Tua::TrebleLevel, m_treble_level)
 
+static PropertyNonOpt<decltype(Tua::ChannelConfig::value)> m_channel_config{
+    "channel", CONFIG_DSP_CHANNEL_MIN, CONFIG_DSP_CHANNEL_MAX, 1, CONFIG_DSP_CHANNEL_DEFAULT, CONFIG_DSP_CHANNEL_DEFAULT};
+PROPERTY_SET(Tua::ChannelConfig, m_channel_config)
+
 static PropertyNonOpt<decltype(Tua::VolumeLevel::value)> m_current_avrcp_volume{"volume",
                                                                                 0,
                                                                                 CONFIG_MAX_AVRCP_VOLUME,
@@ -182,6 +186,8 @@ static void load_persistent_parameters()
     setProperty(trebleLevel);
     auto ecoMode = Storage::load<Tua::EcoMode>().value_or(Tua::EcoMode{false});
     setProperty(ecoMode);
+    auto channelConfig = Storage::load<Tua::ChannelConfig>().value_or(Tua::ChannelConfig{CONFIG_DSP_CHANNEL_DEFAULT});
+    setProperty(channelConfig);
     auto soundIconsActive = Storage::load<Tua::SoundIconsActive>().value_or(Tua::SoundIconsActive{true});
     setProperty(soundIconsActive);
     auto offTimerEnabled =
@@ -502,6 +508,12 @@ TS_KEY_VALUE_CONST_MAP(EventHandlerMapper, uint32_t, button_event_handler_fn_t,
          if (event == Ux::InputState::ShortPress) {
             postMessage(ot_id, Tua::EcoMode{false});
          }
+     }},
+     {BUTTON_ID_PLUS | BUTTON_ID_MINUS, [](Ux::InputState event) {
+        log_debug("Plus+Minus combo: %s", getDesc(event));
+        if (event == Ux::InputState::MediumPress) {
+            postMessage(ot_id, Tua::ChannelConfig{(Tua::ChannelConfig::value + 1) % (CONFIG_DSP_CHANNEL_MAX + 1)});
+        }
      }},
 )
 
@@ -922,6 +934,14 @@ static const GenericThread::Config<AudioMessage> threadConfig = {
                     board_link_amps_set_treble_level(p.value);
 #endif
                 },
+                [](const Tua::ChannelConfig &p)
+                {
+                    setProperty(p);
+#ifndef INCLUDE_PRODUCTION_TESTS
+                    board_link_amps_set_channel_config(p.value);
+
+#endif
+                },
                 [](const Tus::FactoryReset &p)
                 {
                     // Activate sound icons
@@ -967,9 +987,9 @@ int start()
     APP_ASSERT(task_handler);
 
     return 0;
-}
+}int postMessage(Tus::Task source_task, AudioMessage msg)
 
-int postMessage(Tus::Task source_task, AudioMessage msg)
+
 {
     return GenericThread::PostMsg(task_handler, static_cast<uint8_t>(source_task), msg);
 }
