@@ -380,6 +380,7 @@ void board_link_amps_set_channel_config(int8_t config)
     
     default:
         break;
+    }
 }
 
 void board_link_amps_set_bass_level(int8_t bass_db)
