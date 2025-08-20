@@ -331,7 +331,7 @@ void board_link_amps_enable_eq(bool enable)
     }
 }
 
-void board_link_amps_set_channel_config(board_link_amps_channel_config_t config)
+void board_link_amps_set_channel_config(int8_t config)
 {
     switch (config)
     {

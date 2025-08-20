@@ -97,7 +97,7 @@ extern "C"
      */
     void board_link_amps_set_woofer_volume(int8_t volume_db);
 
-    void board_link_amps_set_channel(board_link_amps_channel_config_t channel);
+    void board_link_amps_set_channel(int8_t channel);
 
     int8_t board_link_amps_get_tweeter_volume(void);
     int8_t board_link_amps_get_woofer_volume(void);

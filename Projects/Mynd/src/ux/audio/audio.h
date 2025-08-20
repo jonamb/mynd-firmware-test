@@ -19,7 +19,7 @@ struct StopPlayingSoundIcon { actionslink_sound_icon_t sound_icon; };
 struct SoundIconsActive { bool value; };
 struct BassLevel { int8_t value; };
 struct TrebleLevel { int8_t value; };
-struct ChannelConfig { board_link_amps_channel_config_t value; };
+struct ChannelConfig { int8_t value; };
 
 // clang-format on
 
