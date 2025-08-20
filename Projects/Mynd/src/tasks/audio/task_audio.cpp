@@ -514,7 +514,7 @@ TS_KEY_VALUE_CONST_MAP(EventHandlerMapper, uint32_t, button_event_handler_fn_t,
         if (event == Ux::InputState::MediumPress) {
             auto current_channel_config = getProperty<Tua::ChannelConfig>();
             auto next_channel_value = (current_channel_config.value + 1) % (CONFIG_DSP_CHANNEL_MAX + 1);
-            postMessage(ot_id, Tua::ChannelConfig{static_cast<Tua::ChannelConfig::value_type>(next_channel_value)});
+            postMessage(ot_id, Tua::ChannelConfig{next_channel_value});
         }
      }},
 )
