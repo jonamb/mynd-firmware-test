@@ -186,7 +186,7 @@ static void load_persistent_parameters()
     setProperty(trebleLevel);
     auto ecoMode = Storage::load<Tua::EcoMode>().value_or(Tua::EcoMode{false});
     setProperty(ecoMode);
-    auto channelConfig = Storage::load<Tua::ChannelConfig>().value_or(Tua::ChannelConfig{CONFIG_DSP_CHANNEL_DEFAULT});
+    auto channelConfig = Storage::load<Tua::ChannelConfig>().value_or(Tua::ChannelConfig{static_cast<Tua::ChannelConfig::value>(CONFIG_DSP_CHANNEL_DEFAULT)});
     setProperty(channelConfig);
     auto soundIconsActive = Storage::load<Tua::SoundIconsActive>().value_or(Tua::SoundIconsActive{true});
     setProperty(soundIconsActive);
