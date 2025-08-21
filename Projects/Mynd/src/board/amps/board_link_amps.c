@@ -12,10 +12,10 @@
 
 #include "eco_5805_config_cmpr.h"
 #include "eco_5805_treble_config_cmpr.h"
-#include "eco_5805__cmpr.hannel_config.h"
+#include "eco_5805_channel_config.h"
 #include "eco_5825_config_cmpr.h"
 #include "eco_5825_bass_config_cmpr.h"
-#include "eco_5825__cmpr.hannel_config.h"
+#include "eco_5825_channel_config.h"
 #include "eco_5805_eco_mode_config_cmpr.h"
 #include "eco_5825_eco_mode_config_cmpr.h"
 #include "eco_5805_pat_cmpr.h_to_bypass_mode.h"
