@@ -18,8 +18,8 @@
 #include "eco_5825_channel_config.h"
 #include "eco_5805_eco_mode_config_cmpr.h"
 #include "eco_5825_eco_mode_config_cmpr.h"
-#include "eco_5805_pat_cmpr.h_to_bypass_mode.h"
-#include "eco_5825_pat_cmpr.h_to_bypass_mode.h"
+#include "eco_5805_patch_to_bypass_mode.h"
+#include "eco_5825_patch_to_bypass_mode.h"
 
 static void thread_sleep_ms(uint32_t ms);
 
