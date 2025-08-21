@@ -83,7 +83,7 @@ static int tas5825p_write_register(const tas5825p_handler_t *h, uint8_t register
 static int tas5825p_modify_register(const tas5825p_handler_t *h, uint8_t register_address, uint8_t bitmask,
                                     uint8_t value);
 
-static char tas5825p_zero_array[128] = {0};
+const uint8_t tas5825p_zero_array[128] = {0};
 
 tas5825p_handler_t *tas5825p_init(const tas5825p_config_t *p_config)
 {
@@ -126,7 +126,7 @@ int tas5825p_load_configuration(const tas5825p_handler_t *h, const tas5825p_cfg_
         {
             case CFG_META_SWITCH:
                 if (h->i2c_write_fn(h->i2c_device_address, lastRegister + 1, tas5825p_zero_array,
-                                    l p_tasxxx_config[i].param) != 0)
+                                    p_tasxxx_config[i].param) != 0)
                 {
                     log_error("Failed to load configuration at register 0x%02X", p_tasxxx_config[i + 1].offset);
                     return -E_TAS5825P_IO;
