@@ -64,6 +64,8 @@ struct tas5805m_handler
     uint8_t                 i2c_device_address;
 };
 
+static char tas5825p_zero_array[128] = {0};
+
 static int set_dsp_memory_to_book_and_page(const tas5805m_handler_t *h, uint8_t book, uint8_t page);
 static int tas5805m_read_register(const tas5805m_handler_t *h, uint8_t register_address, uint8_t *p_data);
 static int tas5805m_write_register(const tas5805m_handler_t *h, uint8_t register_address, uint8_t value);
@@ -109,7 +111,11 @@ int tas5805m_load_configuration(const tas5805m_handler_t *h, const tas5805m_cfg_
         switch (p_tasxxx_config[i].command)
         {
             case CFG_META_SWITCH:
-                // Used in legacy applications, ignored here
+                if (h->i2c_write_fn(h->i2c_device_address, 0, tas5805p_zero_array, l p_tasxxx_config[i].param - 1) != 0)
+                {
+                    log_error("Failed to load configuration at register 0x%02X", p_tasxxx_config[i + 1].offset);
+                    return -E_TAS5805P_IO;
+                }
                 break;
             case CFG_META_DELAY:
                 h->delay_fn(p_tasxxx_config[i].param);

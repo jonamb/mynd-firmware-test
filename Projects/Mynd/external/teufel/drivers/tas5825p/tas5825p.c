@@ -83,6 +83,8 @@ static int tas5825p_write_register(const tas5825p_handler_t *h, uint8_t register
 static int tas5825p_modify_register(const tas5825p_handler_t *h, uint8_t register_address, uint8_t bitmask,
                                     uint8_t value);
 
+static char tas5825p_zero_array[128] = {0};
+
 tas5825p_handler_t *tas5825p_init(const tas5825p_config_t *p_config)
 {
     if (p_config == NULL)
@@ -116,13 +118,18 @@ tas5825p_handler_t *tas5825p_init(const tas5825p_config_t *p_config)
 int tas5825p_load_configuration(const tas5825p_handler_t *h, const tas5825p_cfg_reg_t *p_tasxxx_config,
                                 uint32_t config_length)
 {
-    int i = 0;
+    char lastRegister = 0;
+    int  i            = 0;
     while (i < config_length)
     {
         switch (p_tasxxx_config[i].command)
         {
             case CFG_META_SWITCH:
-                // Used in legacy applications, ignored here
+                if (h->i2c_write_fn(h->i2c_device_address, 0, tas5825p_zero_array, l p_tasxxx_config[i].param - 1) != 0)
+                {
+                    log_error("Failed to load configuration at register 0x%02X", p_tasxxx_config[i + 1].offset);
+                    return -E_TAS5825P_IO;
+                }
                 break;
             case CFG_META_DELAY:
                 h->delay_fn(p_tasxxx_config[i].param);
@@ -143,6 +150,7 @@ int tas5825p_load_configuration(const tas5825p_handler_t *h, const tas5825p_cfg_
                     log_error("Failed to load configuration at register 0x%02X", p_tasxxx_config[i].param);
                     return -E_TAS5825P_IO;
                 }
+                lastRegister = p_tasxxx_config[i].command;
                 break;
         }
         i++;
@@ -191,7 +199,7 @@ int tas5825p_enable_eq(const tas5825p_handler_t *h, bool enable)
     }
 
     uint8_t data[4] = {0};
-    data[3] = (enable ? 0x00 : 0x01);
+    data[3]         = (enable ? 0x00 : 0x01);
     if (h->i2c_write_fn(h->i2c_device_address, 0x2C, data, sizeof(data)) != 0)
     {
         return -E_TAS5825P_IO;
@@ -231,8 +239,8 @@ int tas5825p_set_gpio_mode(const tas5825p_handler_t *h, tas5825p_gpio_t gpio, ta
         return -E_TAS5825P_IO;
     }
 
-    uint8_t register_address = TAS5825P_REG_GPIO0_SEL + (uint8_t)gpio;
-    return tas5825p_write_register(h, register_address, (uint8_t)mode);
+    uint8_t register_address = TAS5825P_REG_GPIO0_SEL + (uint8_t) gpio;
+    return tas5825p_write_register(h, register_address, (uint8_t) mode);
 }
 
 int tas5825p_set_gpio_output_level(const tas5825p_handler_t *h, tas5825p_gpio_t gpio, bool high)
@@ -242,8 +250,8 @@ int tas5825p_set_gpio_output_level(const tas5825p_handler_t *h, tas5825p_gpio_t 
         return -E_TAS5825P_IO;
     }
 
-    uint8_t bitmask = (1 << (uint8_t)gpio);
-    uint8_t value = (high ? bitmask : 0);
+    uint8_t bitmask = (1 << (uint8_t) gpio);
+    uint8_t value   = (high ? bitmask : 0);
     return tas5825p_modify_register(h, TAS5825P_REG_GPIO_OUT, bitmask, value);
 }
 
@@ -260,17 +268,8 @@ int tas5825p_clear_analog_fault(const tas5825p_handler_t *h)
 int tas5825p_recover_dc_fake_fault(const tas5825p_handler_t *h)
 {
     const uint8_t command_seq[][2] = {
-        {0x00, 0x00},
-        {0x7F, 0x00},
-        {0x7E, 0xFF},
-        {0x7D, 0x11},
-        {0x00, 0x02},
-        {0x16, 0x08},
-        {0x00, 0x00},
-        {0x7F, 0x00},
-        {0x00, 0x00},
-        {0x7E, 0x52},
-        {0x7D, 0x00},
+        {0x00, 0x00}, {0x7F, 0x00}, {0x7E, 0xFF}, {0x7D, 0x11}, {0x00, 0x02}, {0x16, 0x08},
+        {0x00, 0x00}, {0x7F, 0x00}, {0x00, 0x00}, {0x7E, 0x52}, {0x7D, 0x00},
     };
     const uint8_t command_seq_len = sizeof(command_seq) / sizeof(command_seq[0]);
 

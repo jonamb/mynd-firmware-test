@@ -6,8 +6,10 @@ META_SWITCH = 'CFG_META_SWITCH'
 META_DELAY = 'CFG_META_DELAY'
 META_BURST = 'CFG_META_BURST'
 
+COMPRESS_SUFFIX = "_cmpr"
+
 MIN_ZEROS = 4
-MIN_SEQ = 3
+MIN_SEQ = 2
 
 
 def main():
@@ -21,7 +23,7 @@ def main():
     script_dir = os.path.abspath(os.path.dirname(__file__))
     print(script_dir)
     for filename in os.listdir(script_dir):
-        if filename.startswith("eco_58") and filename.endswith(".h") and not filename.endswith("_comp.h"):
+        if filename.startswith("eco_58") and filename.endswith(".h") and COMPRESS_SUFFIX not in filename:
             filenames.append(filename)
 
     # filenames = ["eco_5805_test.h"]
@@ -39,7 +41,7 @@ def main():
             except StopIteration:
                 pass
         filename_pre, _ = filename.split(".", 1)
-        with open(filename_pre+"_cmpr.h", "w") as file:
+        with open(filename_pre + COMPRESS_SUFFIX + ".h", "w") as file:
             file.write("\n".join(output_lines))
         print(filename)
         # exit(0)
@@ -59,9 +61,9 @@ def examine(input_lines: Iterable, output_lines: list):
         elif ";" in line:
             for data in unroll(pairs):
                 if isinstance(data[0], str):
-                    text = f"\t{{ {data[0]}, {data[1]} }}"
+                    text = f"\t{{ {data[0]}, {data[1]} }},"
                 else:
-                    text = f"\t{{ 0x{data[0]:02x}, 0x{data[1]:02x} }}"
+                    text = f"\t{{ 0x{data[0]:02x}, 0x{data[1]:02x} }},"
                 output_lines.append(text)
             output_lines.append(line)
             return

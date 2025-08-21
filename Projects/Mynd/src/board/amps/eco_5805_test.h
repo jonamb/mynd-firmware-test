@@ -21,9 +21,9 @@ const tas5805m_cfg_reg_t tas5805m_channel_left_config[] = {
     { 0x80, 0x00 },
     { 0x00, 0x00 },
     { CFG_META_BURST, 5 }, // Right channel to right output
-    { 0x28, 0x00 },
-    { 0x00, 0x00 },
-    { 0x00, 0x00 },
+    { 0x28, 0x01 },
+    { 0x02, 0x03 },
+    { 0x04, 0xff },
 };
 
 #define TAS5805M_CHANNEL_LEFT_REGISTERS_SIZE (sizeof(tas5805m_channel_left_config) / sizeof(tas5805m_channel_left_config[0]))
