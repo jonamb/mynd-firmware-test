@@ -98,8 +98,7 @@ extern "C"
 #define log_highlight(...) log_internal(LOG_LEVEL_HIGHLIGHT, __VA_ARGS__)
 #define log_info(...)      log_internal(LOG_LEVEL_INFO, __VA_ARGS__)
 #define log_dbg(...)       log_internal(LOG_LEVEL_DEBUG, __VA_ARGS__)
-// #define log_debug(...)     log_internal(LOG_LEVEL_DEBUG, __VA_ARGS__)
-#define log_debug(...)     
+#define log_debug(...)     log_internal(LOG_LEVEL_DEBUG, __VA_ARGS__)
 #define log_trace(...)     log_internal(LOG_LEVEL_TRACE, __VA_ARGS__)
 
 #define log_fatal_raw(...)     log_internal_raw(LOG_LEVEL_FATAL, __VA_ARGS__)
