@@ -125,7 +125,8 @@ int tas5825p_load_configuration(const tas5825p_handler_t *h, const tas5825p_cfg_
         switch (p_tasxxx_config[i].command)
         {
             case CFG_META_SWITCH:
-                if (h->i2c_write_fn(h->i2c_device_address, 0, tas5825p_zero_array, l p_tasxxx_config[i].param - 1) != 0)
+                if (h->i2c_write_fn(h->i2c_device_address, lastRegister + 1, tas5825p_zero_array,
+                                    l p_tasxxx_config[i].param) != 0)
                 {
                     log_error("Failed to load configuration at register 0x%02X", p_tasxxx_config[i + 1].offset);
                     return -E_TAS5825P_IO;

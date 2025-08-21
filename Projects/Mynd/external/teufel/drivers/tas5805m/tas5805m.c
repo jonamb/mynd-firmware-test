@@ -105,13 +105,15 @@ tas5805m_handler_t *tas5805m_init(const tas5805m_config_t *p_config)
 int tas5805m_load_configuration(const tas5805m_handler_t *h, const tas5805m_cfg_reg_t *p_tasxxx_config,
                                 uint32_t config_length)
 {
-    int i = 0;
+    char lastRegister = 0;
+    int  i            = 0;
     while (i < config_length)
     {
         switch (p_tasxxx_config[i].command)
         {
             case CFG_META_SWITCH:
-                if (h->i2c_write_fn(h->i2c_device_address, 0, tas5805p_zero_array, l p_tasxxx_config[i].param - 1) != 0)
+                if (h->i2c_write_fn(h->i2c_device_address, lastRegister + 1, tas5805p_zero_array,
+                                    l p_tasxxx_config[i].param) != 0)
                 {
                     log_error("Failed to load configuration at register 0x%02X", p_tasxxx_config[i + 1].offset);
                     return -E_TAS5805P_IO;
@@ -136,6 +138,7 @@ int tas5805m_load_configuration(const tas5805m_handler_t *h, const tas5805m_cfg_
                     log_error("Failed to load configuration at register 0x%02X", p_tasxxx_config[i].param);
                     return -E_TAS5805M_IO;
                 }
+                lastRegister = p_tasxxx_config[i].command;
                 break;
         }
         i++;
