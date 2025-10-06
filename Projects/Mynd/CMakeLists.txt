@@ -18,6 +18,8 @@ find_package(FreeRTOS COMPONENTS ARM_CM0 REQUIRED QUIET)
 find_package(Actionslink REQUIRED QUIET)
 find_package(Logger REQUIRED QUIET)
 find_package(IEngine REQUIRED QUIET)
+find_package(SEGGER COMPONENTS rtt REQUIRED)
+ 
 
 set(MYND_HEAP_SIZE 824)
 set(MYND_STACK_SIZE 512)
@@ -93,10 +95,14 @@ add_library(baseTarget INTERFACE IMPORTED)
 
 # Enable LTO for both compilation and linking
 # -flto=auto prevents warnings about performing LTO with parallel threads
-target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:CXX>:-std=c++20 -flto=auto -DNDEBUG>)
-target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:C>:-std=gnu99 -flto=auto -DNDEBUG>)
-target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:ASM>:-flto=auto -DNDEBUG>)
-target_link_options(baseTarget INTERFACE -flto=auto -DNDEBUG)
+#target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:CXX>:-std=c++20 -flto=auto -DNDEBUG>)
+#target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:C>:-std=gnu99 -flto=auto -DNDEBUG>)
+#target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:ASM>:-flto=auto -DNDEBUG>)
+#target_link_options(baseTarget INTERFACE -flto=auto -DNDEBUG)
+target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:CXX>:-std=c++20 -flto=auto >)
+target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:C>:-std=gnu99 -flto=auto >)
+target_compile_options(baseTarget INTERFACE $<$<COMPILE_LANGUAGE:ASM>:-flto=auto >)
+target_link_options(baseTarget INTERFACE -flto=auto )
 #target_link_options(baseTarget INTERFACE -flto=auto -DNDEBUG -u _printf_float)
 
 target_link_libraries(baseTarget INTERFACE

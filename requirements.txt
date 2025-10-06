@@ -4,6 +4,4 @@ python3-protobuf
 google
 crcmod
 intelhex
-json
-shutil
 wget
