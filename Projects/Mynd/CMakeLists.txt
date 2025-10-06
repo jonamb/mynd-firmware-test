@@ -18,7 +18,7 @@ find_package(FreeRTOS COMPONENTS ARM_CM0 REQUIRED QUIET)
 find_package(Actionslink REQUIRED QUIET)
 find_package(Logger REQUIRED QUIET)
 find_package(IEngine REQUIRED QUIET)
-find_package(SEGGER COMPONENTS rtt REQUIRED)
+# find_package(SEGGER COMPONENTS rtt REQUIRED)
  
 
 set(MYND_HEAP_SIZE 824)
