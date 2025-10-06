@@ -24,7 +24,7 @@ jobs:
           - project: MyndBootloader
             buildTargets: "mynd-bootloader"
           - project: Mynd
-            buildTargets: "mynd-update-firmware-mcu mynd-factory-update-firmware-mcu"
+            buildTargets: "mynd-update-firmware-mcu mynd-factory-update-firmware-mcu mynd mynd.hex"
     steps:
       - name: Checkout (with submodules)
         uses: actions/checkout@v4
